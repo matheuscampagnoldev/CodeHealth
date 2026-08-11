@@ -29,23 +29,19 @@ def contador_funcoes(n):
             print(f'Total de funções do arquivo: {funcoes}')
 
 def funcoes_longas(n):
-        qtdfuncoeslongas = 0
-        funcoeslongas = 0
-        linhas = 0
+    funcao = False
+    linhas = 0
+    espacos = 0
 
-        with open(n, 'r', encoding='utf-8') as arquivo:
-
+    with open(n, 'r', encoding='utf-8') as arquivo:
             for l in arquivo:
-                if l[0:3] != 'def':
+
+                if l.startswith('def') == True:
+                    funcao = True
+
+                if funcao == True:
                     linhas += 1
-
-                elif l[0:3] == 'def':
-                    for l in arquivo:
-                        funcoeslongas =+ 1
-                        if funcoeslongas == 20:
-                             qtdfuncoeslongas =+ 1
-
-                        if l[0] == '':
-                            linhas =+ 1
-                              
-            print(f'Total de funções longas do arquivo: {funcoeslongas}')
+                    espacos = len(l) - len(l.lstrip())
+                    if espacos == 0:
+                        funcao = False
+    print(linhas)
