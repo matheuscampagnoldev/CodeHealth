@@ -36,6 +36,7 @@ O projeto foi construído do zero como exercício prático dos fundamentos da li
 ```
 codehealth-python/
 ├── codehealth.py     # Ponto de entrada: leitura do arquivo, cálculo das métricas e saída no terminal
+├── funcoes.py        # Funções: Análise dos arquivos, somas, e resultados.
 └── README.md
 ```
 
