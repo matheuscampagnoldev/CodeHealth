@@ -1,8 +1,6 @@
 def abrir_arquivo(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
-        for l in arquivo:
-            print(l, end='')
-            print('')
+        return
 
 def contar_linhas(n):
         linhas = 0
@@ -33,40 +31,54 @@ def funcoes_longas(n):
 
     linhas_totais = contar_linhas(n)
     total_linhasnadef = 0
+    cont = 0
 
+    todas_funcoes = {}
+    funcoes_longas = {}
 
-    Quantidade_linhas = []
-    funcoes_longas = []
     funcao = False
     linhas = 0
     espacos = 0
 
     with open(n, 'r', encoding='utf-8') as arquivo:
+            
             for l in arquivo:
                 total_linhasnadef += 1
-                if l.startswith('def') == True: # vendo se e uma funcao e pulando essa linhas para nao contar
-                    funcao = True
+
+                if l.startswith('def') == True: # Vendo se esta incinado/dentro de uma funcao
+
+                    if funcao == True:
+                        todas_funcoes[f'funcoes{cont}'] = linhas
+                        if linhas > 20:  #guardar no dict se for maior que 20
+                            funcoes_longas[f'funcoes{cont}'] = linhas
+                        linhas = 0 #Resetar as linhas
+
+                    funcao = True #Mostra que esta dentro de um funcao
+                    cont += 1 #Comeca a contar pro dict ficar mais organizado
                     continue
 
                 if funcao == True:
-                    espacos = len(l) - len(l.lstrip()) #quantidade de espacos pra ver identacao
+                    espacos = len(l) - len(l.lstrip()) #Contando a quanridade de espacos
 
-                    if espacos != 0: #se for identado linhas recebe 1
+                    if espacos != 0: #se for identado linhas comeca a contar
                         linhas += 1
 
-                    if total_linhasnadef != linhas_totais: #ver se e a ultima linha
-                        if l.strip() and espacos == 0 : #ver se acabou a funcao
-                            funcao = False
-                            Quantidade_linhas.append(linhas)
+                    if total_linhasnadef != linhas_totais: #Se a linha da funcao for diferente da linha final
 
-                            if linhas > 20: #guardar na lista
-                                funcoes_longas.append(linhas)
+                        if l.strip() and espacos == 0 : #Ver se acabou a funcao para poder guardar nos dict
+                            funcao = False
+                            todas_funcoes[f'funcoes{cont}'] = linhas
+                            if linhas > 20: #guardar no dict se for maior que 20 
+                                funcoes_longas[f'funcoes{cont}'] = linhas
                             linhas = 0
-                    else:
+                            
+                    else: #Caso for a ultima linha
                         funcao = False
-                        Quantidade_linhas.append(linhas)
-                        if linhas > 20: #guardar na lista
-                            funcoes_longas.append(linhas)
+                        if linhas > 20: #guardar no dict se for maior que 20
+                            funcoes_longas[f'funcoes{cont}'] = linhas
+                            linhas = 0
+                        if linhas <= 20: #Caso nao for apenas guardar as linhas em todas as funcoes
+                            todas_funcoes[f'funcoes{cont}'] = linhas
                         linhas = 0
 
     return funcoes_longas
