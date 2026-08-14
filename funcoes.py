@@ -1,13 +1,34 @@
+def menu():
+    while True:
+        caminho_arquivo = input('Digite o caminho do arquivo .py: ').strip()
+
+        if caminho_arquivo[-3:].lower() == '.py':
+            try:
+                abrir_arquivo(caminho_arquivo)
+                return caminho_arquivo
+            except FileNotFoundError:
+                print('O arquivo Não foi encontrado')
+            except PermissionError:
+                print('Não tenho permissão para lê-lo.')
+            except IsADirectoryError:
+                print('Você passou o caminho de uma pasta em vez de um arquivo.')
+            except UnicodeDecodeError:
+                print('O arquivo existe e foi aberto, mas o Python não consegue interpretar o conteúdo como texto com aquela codificação.')
+        elif caminho_arquivo == '':
+            print('Digite um caminho valido.')
+        else:
+            print('O arquivo precisa ser .py.')
+            continue
+
 def abrir_arquivo(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
-        for l in arquivo:
-            print(l, end='')
+        return arquivo
 
 def contar_linhas(n):
         linhas = 0
         with open(n, 'r', encoding='utf-8') as arquivo:
             for l in arquivo:
-                if l.strip() != '':
+                if l.strip() != '' and l.strip().startswith('#') == False:
                     linhas += 1
             return linhas
 
@@ -23,9 +44,12 @@ def contador_comentario(n):
 def contador_funcoes(n):
         funcoes = 0
         with open(n, 'r', encoding='utf-8') as arquivo:
+
             for l in arquivo:
-                if l[0:3] == 'def':
-                     funcoes += 1
+
+                if l.strip().startswith('def'):
+                     if l.strip()[-1] == ':' and '(' in l and ')' in l:
+                            funcoes += 1
             return funcoes
 
 def funcoes_longas(n):
@@ -46,7 +70,7 @@ def funcoes_longas(n):
             for l in arquivo:
                 total_linhasnadef += 1
 
-                if l.startswith('def') == True: # Vendo se esta incinado/dentro de uma funcao
+                if l.strip().startswith('def') == True: # Vendo se esta incinado/dentro de uma funcao
 
                     if funcao == True:
                         todas_funcoes[f'funcoes{cont}'] = linhas
@@ -93,7 +117,7 @@ def linhas_longas(n):
 
         for l in arquivo:
              linhas += 1
-             if len(l) > 79:
+             if len(l.replace('\n', '')) > 79:
                 linhas_grandes += 1
                 local_linha.append(linhas)
         return linhas_grandes
@@ -110,8 +134,11 @@ def proporcao_comentarios(n):
                 else:
                     linhas += 1
 
-    proporcao = (comentarios / linhas) * 100
-    return proporcao
+    if linhas != 0:
+        proporcao = (comentarios / linhas) * 100
+        return proporcao
+    else:
+        return 0
 
 def nota_programa(n):
 
