@@ -1,6 +1,7 @@
 def abrir_arquivo(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
-        return
+        for l in arquivo:
+            print(l, end='')
 
 def contar_linhas(n):
         linhas = 0
@@ -15,8 +16,8 @@ def contador_comentario(n):
         comentarios = 0
         with open(n, 'r', encoding='utf-8') as arquivo:
             for l in arquivo:
-                if l[0] == '#':
-                     comentarios += 1
+                if l.strip().startswith('#'):
+                    comentarios += 1
             return comentarios
 
 def contador_funcoes(n):

@@ -24,8 +24,6 @@ while True:
     else:
         print('O arquivo precisa ser .py.')
         continue
-    
-    break
 
     
 print('')
