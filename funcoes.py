@@ -24,6 +24,7 @@ def abrir_arquivo(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
         return arquivo
 
+
 def contar_linhas(n):
         linhas = 0
         with open(n, 'r', encoding='utf-8') as arquivo:
@@ -40,6 +41,7 @@ def contador_comentario(n):
                 if l.strip().startswith('#'):
                     comentarios += 1
             return comentarios
+
 
 def contador_funcoes(n):
         funcoes = 0
@@ -123,22 +125,21 @@ def linhas_longas(n):
         return linhas_grandes
 
 def proporcao_comentarios(n):
-    linhas = 0
+    linhas = contar_linhas(n)
     comentarios = 0
 
     with open(n, 'r', encoding='utf-8') as arquivo:
         for l in arquivo:
             if l.strip() != '':
-                if l.startswith('#'):
+                if l.strip().startswith('#'):
                     comentarios += 1
-                else:
-                    linhas += 1
 
     if linhas != 0:
         proporcao = (comentarios / linhas) * 100
         return proporcao
     else:
-        return 0
+        proporcao = 0
+        return proporcao
 
 def nota_programa(n):
 
@@ -164,14 +165,20 @@ def nota_programa(n):
     elif linhasgrandes > 10:
             nota -= 4
 
-    if proporcaocomentarios < 5:
-        nota -= 1
-    elif proporcaocomentarios >= 5 and proporcaocomentarios <= 30:
-        nota += 1
-    elif proporcaocomentarios > 30 and proporcaocomentarios <= 50:
-        nota += 2
-    elif proporcaocomentarios > 50:
+    if proporcaocomentarios == 0:
+        nota -= 3
+
+    elif proporcaocomentarios < 5:
         nota -= 2
+
+    elif proporcaocomentarios <= 30:
+        nota += 1
+
+    elif proporcaocomentarios <= 50:
+        nota += 2
+
+    else:
+        nota += 1
 
     if nota > 10:
         nota = 10
@@ -179,4 +186,3 @@ def nota_programa(n):
         nota = 0
 
     return nota
-
