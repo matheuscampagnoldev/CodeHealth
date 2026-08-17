@@ -25,15 +25,23 @@ def mostrarnota(n):
     linhas = funcoes.contar_linhas(n)
 
     if linhas == 0 and funcoes.contador_comentario(n) == 0:
+        print('-' * 30)
         print('SAÚDE DO CÓDIGO: 0/0'.center(30))
         print('O seu programa não tem linhas de código')
+        print('-' * 30)
 
     elif funcoes.contador_comentario(n) != 0 and linhas == 0:
+        print('-' * 30)
         print('SAÚDE DO CÓDIGO: 0/0'.center(30))
         print('O seu programa tem apenas linhas de comentários')
+        print('-' * 30)
 
     elif linhas != 0 and funcoes.contador_comentario(n) != linhas:
+        print('-' * 30)
         print(f'SAÚDE DO CÓDIGO: {funcoes.nota_programa(n)}/10'.center(30))
+        print('-' * 30)
 
     else:
+        print('-' * 30)
         print(f'SAÚDE DO CÓDIGO: {funcoes.nota_programa(n)}/10'.center(30))
+        print('-' * 30)

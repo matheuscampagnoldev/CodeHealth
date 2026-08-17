@@ -18,7 +18,6 @@ def menu():
             print('Digite um caminho valido.')
         else:
             print('O arquivo precisa ser .py.')
-            continue
 
 def abrir_arquivo(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
@@ -27,10 +26,14 @@ def abrir_arquivo(n):
 
 def contar_linhas(n):
         linhas = 0
+
         with open(n, 'r', encoding='utf-8') as arquivo:
             for l in arquivo:
-                if l.strip() != '' and l.strip().startswith('#') == False:
+                if l.strip() == '' or l.strip().startswith('#'):
+                    continue
+                else:
                     linhas += 1
+
             return linhas
 
 
@@ -49,18 +52,21 @@ def contador_funcoes(n):
 
             for l in arquivo:
 
-                if l.strip().startswith('def'):
-                     if l.strip()[-1] == ':' and '(' in l and ')' in l:
+                if l.strip().startswith('def') and '(' in l and ')' in l:
                             funcoes += 1
             return funcoes
 
 def funcoes_longas(n):
 
-    linhas_totais = contar_linhas(n)
+    linhas_totais = 0
+
+    with open(n, 'r', encoding='utf-8') as arquivo:
+        for l in arquivo:
+            linhas_totais += 1
+
     total_linhasnadef = 0
     cont = 0
 
-    todas_funcoes = {}
     funcoes_longas = {}
 
     funcao = False
@@ -72,41 +78,40 @@ def funcoes_longas(n):
             for l in arquivo:
                 total_linhasnadef += 1
 
-                if l.strip().startswith('def') == True: # Vendo se esta incinado/dentro de uma funcao
+                if l.strip().startswith('def') == True:
 
                     if funcao == True:
-                        todas_funcoes[f'funcoes{cont}'] = linhas
-                        if linhas > 20:  #guardar no dict se for maior que 20
+                        if linhas > 20: 
                             funcoes_longas[f'funcoes{cont}'] = linhas
-                        linhas = 0 #Resetar as linhas
+                        linhas = 0 
 
-                    funcao = True #Mostra que esta dentro de um funcao
-                    cont += 1 #Comeca a contar pro dict ficar mais organizado
+                    funcao = True
+                    cont += 1 
                     continue
 
                 if funcao == True:
-                    espacos = len(l) - len(l.lstrip()) #Contando a quanridade de espacos
+                    espacos = len(l) - len(l.lstrip())
 
-                    if espacos != 0: #se for identado linhas comeca a contar
+                    if espacos != 0: 
+                        if l.strip().startswith('#'):
+                            continue
                         linhas += 1
 
-                    if total_linhasnadef != linhas_totais: #Se a linha da funcao for diferente da linha final
+                    if total_linhasnadef != linhas_totais: 
 
-                        if l.strip() and espacos == 0 : #Ver se acabou a funcao para poder guardar nos dict
+                        if l.strip() and espacos == 0 : 
                             funcao = False
-                            todas_funcoes[f'funcoes{cont}'] = linhas
-                            if linhas > 20: #guardar no dict se for maior que 20 
+                            if linhas > 20: 
                                 funcoes_longas[f'funcoes{cont}'] = linhas
                             linhas = 0
                             
-                    else: #Caso for a ultima linha
+                    else:
                         funcao = False
-                        if linhas > 20: #guardar no dict se for maior que 20
+                        if linhas > 20: 
                             funcoes_longas[f'funcoes{cont}'] = linhas
                             linhas = 0
-                        if linhas <= 20: #Caso nao for apenas guardar as linhas em todas as funcoes
-                            todas_funcoes[f'funcoes{cont}'] = linhas
-                        linhas = 0
+                        if linhas <= 20: 
+                            linhas = 0
 
     return funcoes_longas
 
@@ -119,7 +124,7 @@ def linhas_longas(n):
 
         for l in arquivo:
              linhas += 1
-             if len(l.replace('\n', '')) > 79:
+             if len(l.replace('\n', '').strip()) > 79:
                 linhas_grandes += 1
                 local_linha.append(linhas)
         return linhas_grandes
@@ -177,8 +182,8 @@ def nota_programa(n):
     elif proporcaocomentarios <= 50:
         nota += 2
 
-    else:
-        nota += 1
+    elif proporcaocomentarios > 50:
+        nota -= 2
 
     if nota > 10:
         nota = 10
