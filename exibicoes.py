@@ -12,7 +12,7 @@ def menu():
 
         if caminho_arquivo[-3:].lower() == '.py':
             try:
-                with open(caminho_arquivo, 'r', encoding='utf=8'):
+                with open(caminho_arquivo, 'r', encoding='utf-8'):
                     return caminho_arquivo
             except FileNotFoundError:
                 print('O arquivo Não foi encontrado')
@@ -39,7 +39,13 @@ def informacoes(n):
     print(f'Comentários: {funcoes.contador_comentario(n)}')
     print(f'Proporção: {funcoes.proporcao_comentarios(n):.2f}%')
     print(f'Funções: {funcoes.contador_funcoes(n)}')
-    print(f'Funções longas: {len(funcoes.funcoes_longas(n))}')
+
+    resultado = funcoes.funcoes_longas(n)
+
+    print(f'Funções longas: {len(resultado)}')
+    for f in resultado:
+        print(f'  - {f}')
+
     print(f'Linhas longas: {funcoes.linhas_longas(n)}')
 
 
@@ -56,11 +62,6 @@ def mostrarnota(n):
         print('-' * 30)
         print('SAÚDE DO CÓDIGO: 0/0'.center(30))
         print('O seu programa tem apenas linhas de comentários')
-        print('-' * 30)
-
-    elif linhas != 0 and funcoes.contador_comentario(n) != linhas:
-        print('-' * 30)
-        print(f'SAÚDE DO CÓDIGO: {funcoes.nota_programa(n)}/10'.center(30))
         print('-' * 30)
 
     else:

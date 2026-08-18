@@ -30,15 +30,16 @@ def contador_funcoes(n):
 
 def funcoes_longas(n):
 
-    linhas_totais = 0
+    linhas_totais =  0   
 
     with open(n, 'r', encoding='utf-8') as arquivo:
         for l in arquivo:
             linhas_totais += 1
 
-    total_linhasnadef = 0
+    total_linhas_arquivo = 0
 
     funcoes_longas = {}
+    nome_funcoes = ''
 
     funcao = False
     linhas = 0
@@ -47,14 +48,17 @@ def funcoes_longas(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
             
             for l in arquivo:
-                total_linhasnadef += 1
+                total_linhas_arquivo += 1
 
-                if l.strip().startswith('def'):
-
+                if l.strip().startswith('def') and '(' in l and ')' in l:
+                    
                     if funcao == True:
                         if linhas > 20: 
-                            funcoes_longas[f'{l} -> {linhas}'] = linhas
+                            funcoes_longas[f'{nome_funcoes[0]} -> {linhas}'] = linhas
                         linhas = 0 
+                        nome_funcoes = ''
+
+                    nome_funcoes = l.strip().replace('def ', '').split('(')
 
                     funcao = True
                     continue
@@ -67,21 +71,24 @@ def funcoes_longas(n):
                             continue
                         linhas += 1
 
-                    if total_linhasnadef != linhas_totais: 
+                    if total_linhas_arquivo != linhas_totais: 
 
                         if l.strip() and espacos == 0 : 
                             funcao = False
                             if linhas > 20: 
-                                funcoes_longas[f'{l} -> {linhas}'] = linhas
+                                funcoes_longas[f'{nome_funcoes[0]} -> {linhas}'] = linhas
                             linhas = 0
+                            nome_funcoes = ''
                             
                     else:
                         funcao = False
                         if linhas > 20: 
-                            funcoes_longas[f'{l} -> {linhas}'] = linhas
-                            linhas = 0      
+                            funcoes_longas[f'{nome_funcoes[0]} -> {linhas}'] = linhas
+                            linhas = 0     
+                            nome_funcoes = '' 
                         if linhas <= 20: 
                                 linhas = 0
+                                nome_funcoes = ''
 
     return funcoes_longas
 
@@ -116,18 +123,14 @@ def nota_programa(n):
     linhasgrandes = linhas_longas(n)
     proporcaocomentarios = proporcao_comentarios(n)
 
-    if funcoeslongas == 0:
-        pass
-    elif funcoeslongas >= 1 and funcoeslongas <= 3:
+    if funcoeslongas >= 1 and funcoeslongas <= 3:
         nota -= 1
     elif funcoeslongas <= 10:
         nota -= 2
     else:
          nota -= 4
 
-    if linhasgrandes == 0:
-        pass
-    elif linhasgrandes >= 1 and linhasgrandes <= 3:
+    if linhasgrandes >= 1 and linhasgrandes <= 3:
         nota -= 1
     elif linhasgrandes <= 10:
         nota -= 2
