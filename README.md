@@ -8,7 +8,9 @@ O projeto foi construído do zero como exercício prático dos fundamentos da li
 
 ## 🖼️ Demonstração
 
-<img width="556" height="412" alt="image" src="https://github.com/user-attachments/assets/7546a1f2-3322-4809-ba85-80456140125f" />
+<img width="544" height="795" alt="image" src="https://github.com/user-attachments/assets/47fc4c9b-ccf4-42fb-8db9-ff917fc91842" />
+
+
 
 ## ✨ Funcionalidades
 
@@ -32,13 +34,17 @@ O projeto foi construído do zero como exercício prático dos fundamentos da li
 | Persistência | Nenhuma — cada execução analisa o arquivo na hora, sem salvar histórico |
 
 ## 📁 Estrutura do projeto
-
+ 
 ```
-codehealth-python/
-├── codehealth.py     # Ponto de entrada: leitura do arquivo, cálculo das métricas e saída no terminal
-├── funcoes.py        # Funções: Análise dos arquivos, somas, e resultados.
+CodeHealth-Python/
+├── main.py           # Ponto de entrada: orquestra o fluxo do programa
+├── exibicoes.py       # Interface: menu, títulos e exibição dos resultados no terminal
+├── funcoes.py         # Lógica: contagem de linhas, comentários, funções e cálculo da nota
+├── amostras/           # Arquivos .py de exemplo para testar a ferramenta
+├── LICENSE
 └── README.md
 ```
+
 
 ## 🚀 Como executar
 
@@ -60,17 +66,27 @@ Não há dependências externas — o projeto roda apenas com a biblioteca padr�
 ## 🖥️ Exemplo de saída
 
 ```
-=== CodeHealth: diagnóstico de arquivo.py ===
+==============================
+       CODEHEALTH V1.0        
+==============================
+Digite o caminho do arquivo .py: teste.py
 
-Linhas de código: 120
-Linhas de comentário: 18
-Proporção comentário/código: 15%
+Arquivo: teste.py
 
-Funções encontradas: 6
-Funções longas (> 20 linhas): 2
-Linhas longas (> 79 caracteres): 9
-
-Nota final de saúde: 78/100
+Linhas do codigo: 273
+Comentários: 3
+Proporção: 1.10%
+Funções: 24
+Funções longas: 5
+  - ler_texto -> 24
+  - cadastro -> 46
+  - saidaproduto -> 26
+  - remover_produto -> 26
+  - relatorio -> 68
+Linhas longas: 3
+------------------------------
+    SAÚDE DO CÓDIGO: 5/10     
+------------------------------
 ```
 
 ## 🗺️ Roadmap
