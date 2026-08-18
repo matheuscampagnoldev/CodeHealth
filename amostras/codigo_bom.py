@@ -1,29 +1,16 @@
-"""Exemplo de código organizado e legível."""
-
-TAXA_DESCONTO = 0.10
-
-
-def calcular_desconto(preco):
-    """Calcula o desconto de um produto."""
-    return preco * TAXA_DESCONTO
+# Calcula a média
+def calcular_media(a, b):
+    return (a + b) / 2
 
 
-def calcular_preco_final(preco):
-    """Retorna o preço após aplicar o desconto."""
-    desconto = calcular_desconto(preco)
-    return preco - desconto
+# Verifica o resultado
+def aprovado(media):
+    return media >= 7
 
 
-def exibir_resultado(produto, preco):
-    """Exibe as informações do produto."""
-    preco_final = calcular_preco_final(preco)
+media = calcular_media(8, 10)
 
-    print(f"Produto: {produto}")
-    print(f"Preço original: R$ {preco:.2f}")
-    print(f"Preço final: R$ {preco_final:.2f}")
-
-
-produto = "Teclado"
-preco = 150.00
-
-exibir_resultado(produto, preco)
+if aprovado(media):
+    print('Aprovado')
+else:
+    print('Reprovado')

@@ -123,14 +123,19 @@ def nota_programa(n):
     linhasgrandes = linhas_longas(n)
     proporcaocomentarios = proporcao_comentarios(n)
 
-    if funcoeslongas >= 1 and funcoeslongas <= 3:
+    if funcoeslongas == 0:
+        pass
+    elif funcoeslongas >= 1 and funcoeslongas <= 3:
         nota -= 1
     elif funcoeslongas <= 10:
         nota -= 2
     else:
          nota -= 4
 
-    if linhasgrandes >= 1 and linhasgrandes <= 3:
+
+    if linhasgrandes == 0:
+            pass
+    elif linhasgrandes >= 1 and linhasgrandes <= 3:
         nota -= 1
     elif linhasgrandes <= 10:
         nota -= 2
