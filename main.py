@@ -3,7 +3,7 @@ import exibicoes
 
 exibicoes.titulo('CODEHEALTH V1.0')
 
-arquivo = funcoes.menu()
+arquivo = exibicoes.menu()
 
 exibicoes.arquivo_selecionado(arquivo)
 

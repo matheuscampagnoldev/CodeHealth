@@ -6,6 +6,28 @@ def titulo(n):
     print('=' * 30)
 
 
+def menu():
+    while True:
+        caminho_arquivo = input('Digite o caminho do arquivo .py: ').strip()
+
+        if caminho_arquivo[-3:].lower() == '.py':
+            try:
+                with open(caminho_arquivo, 'r', encoding='utf=8'):
+                    return caminho_arquivo
+            except FileNotFoundError:
+                print('O arquivo Não foi encontrado')
+            except PermissionError:
+                print('Não tenho permissão para lê-lo.')
+            except IsADirectoryError:
+                print('Você passou o caminho de uma pasta em vez de um arquivo.')
+            except UnicodeDecodeError:
+                print('O arquivo existe e foi aberto, mas o Python não consegue interpretar o conteúdo como texto com aquela codificação.')
+        elif caminho_arquivo == '':
+            print('Digite um caminho valido.')
+        else:
+            print('O arquivo precisa ser .py.')
+
+
 def arquivo_selecionado(n):
     print('')
     print(f'Arquivo: {n}')

@@ -1,39 +1,10 @@
-def menu():
-    while True:
-        caminho_arquivo = input('Digite o caminho do arquivo .py: ').strip()
-
-        if caminho_arquivo[-3:].lower() == '.py':
-            try:
-                abrir_arquivo(caminho_arquivo)
-                return caminho_arquivo
-            except FileNotFoundError:
-                print('O arquivo Não foi encontrado')
-            except PermissionError:
-                print('Não tenho permissão para lê-lo.')
-            except IsADirectoryError:
-                print('Você passou o caminho de uma pasta em vez de um arquivo.')
-            except UnicodeDecodeError:
-                print('O arquivo existe e foi aberto, mas o Python não consegue interpretar o conteúdo como texto com aquela codificação.')
-        elif caminho_arquivo == '':
-            print('Digite um caminho valido.')
-        else:
-            print('O arquivo precisa ser .py.')
-
-def abrir_arquivo(n):
-    with open(n, 'r', encoding='utf-8') as arquivo:
-        return arquivo
-
-
 def contar_linhas(n):
         linhas = 0
 
         with open(n, 'r', encoding='utf-8') as arquivo:
             for l in arquivo:
-                if l.strip() == '' or l.strip().startswith('#'):
-                    continue
-                else:
+                if l.strip() != '' and not l.strip().startswith('#'):
                     linhas += 1
-
             return linhas
 
 
@@ -56,6 +27,7 @@ def contador_funcoes(n):
                             funcoes += 1
             return funcoes
 
+
 def funcoes_longas(n):
 
     linhas_totais = 0
@@ -65,7 +37,6 @@ def funcoes_longas(n):
             linhas_totais += 1
 
     total_linhasnadef = 0
-    cont = 0
 
     funcoes_longas = {}
 
@@ -78,15 +49,14 @@ def funcoes_longas(n):
             for l in arquivo:
                 total_linhasnadef += 1
 
-                if l.strip().startswith('def') == True:
+                if l.strip().startswith('def'):
 
                     if funcao == True:
                         if linhas > 20: 
-                            funcoes_longas[f'funcoes{cont}'] = linhas
+                            funcoes_longas[f'{l} -> {linhas}'] = linhas
                         linhas = 0 
 
                     funcao = True
-                    cont += 1 
                     continue
 
                 if funcao == True:
@@ -102,42 +72,33 @@ def funcoes_longas(n):
                         if l.strip() and espacos == 0 : 
                             funcao = False
                             if linhas > 20: 
-                                funcoes_longas[f'funcoes{cont}'] = linhas
+                                funcoes_longas[f'{l} -> {linhas}'] = linhas
                             linhas = 0
                             
                     else:
                         funcao = False
                         if linhas > 20: 
-                            funcoes_longas[f'funcoes{cont}'] = linhas
-                            linhas = 0
+                            funcoes_longas[f'{l} -> {linhas}'] = linhas
+                            linhas = 0      
                         if linhas <= 20: 
-                            linhas = 0
+                                linhas = 0
 
     return funcoes_longas
 
+
 def linhas_longas(n):
     with open(n, 'r', encoding='utf-8') as arquivo:
-
-        local_linha = []
-        linhas = 0
         linhas_grandes = 0
 
         for l in arquivo:
-             linhas += 1
-             if len(l.replace('\n', '').strip()) > 79:
+             if len(l.replace('\n', '')) > 79:
                 linhas_grandes += 1
-                local_linha.append(linhas)
         return linhas_grandes
+
 
 def proporcao_comentarios(n):
     linhas = contar_linhas(n)
-    comentarios = 0
-
-    with open(n, 'r', encoding='utf-8') as arquivo:
-        for l in arquivo:
-            if l.strip() != '':
-                if l.strip().startswith('#'):
-                    comentarios += 1
+    comentarios = contador_comentario(n)
 
     if linhas != 0:
         proporcao = (comentarios / linhas) * 100
@@ -145,6 +106,7 @@ def proporcao_comentarios(n):
     else:
         proporcao = 0
         return proporcao
+
 
 def nota_programa(n):
 
@@ -154,40 +116,42 @@ def nota_programa(n):
     linhasgrandes = linhas_longas(n)
     proporcaocomentarios = proporcao_comentarios(n)
 
-
-    if funcoeslongas >= 1 and funcoeslongas <= 3:
+    if funcoeslongas == 0:
+        pass
+    elif funcoeslongas >= 1 and funcoeslongas <= 3:
         nota -= 1
-    elif funcoeslongas > 3 and funcoeslongas <= 10:
+    elif funcoeslongas <= 10:
         nota -= 2
-    elif funcoeslongas > 10:
+    else:
          nota -= 4
 
-
-    if linhasgrandes >= 1 and linhasgrandes <= 3:
+    if linhasgrandes == 0:
+        pass
+    elif linhasgrandes >= 1 and linhasgrandes <= 3:
         nota -= 1
-    elif linhasgrandes > 3 and linhasgrandes <= 10:
+    elif linhasgrandes <= 10:
         nota -= 2
-    elif linhasgrandes > 10:
-            nota -= 4
+    else:
+        nota -= 4
+
 
     if proporcaocomentarios == 0:
         nota -= 3
-
     elif proporcaocomentarios < 5:
         nota -= 2
-
     elif proporcaocomentarios <= 30:
         nota += 1
-
     elif proporcaocomentarios <= 50:
         nota += 2
-
-    elif proporcaocomentarios > 50:
+    else: 
         nota -= 2
+
 
     if nota > 10:
         nota = 10
-    elif nota < 0:
+
+    if nota < 0:
         nota = 0
+
 
     return nota
