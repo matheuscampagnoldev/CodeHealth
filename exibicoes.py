@@ -44,7 +44,7 @@ def informacoes(n):
 
     print(f'Funções longas: {len(resultado)}')
     for f in resultado:
-        print(f'  - {f}')
+        print(f'\033[91m  - {f}\033[0m')
 
     print(f'Linhas longas: {funcoes.linhas_longas(n)}')
 
